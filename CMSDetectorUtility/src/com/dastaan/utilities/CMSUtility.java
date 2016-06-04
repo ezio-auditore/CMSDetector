@@ -45,6 +45,7 @@ public class CMSUtility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("No internet connection");
+			return false;
 		}
 		return true;
 	}
