@@ -42,7 +42,6 @@ public class CMSUtility {
 		try {
 			InetAddress address = InetAddress.getByName("www.google.com");
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.err.println("No internet connection");
 			return false;
