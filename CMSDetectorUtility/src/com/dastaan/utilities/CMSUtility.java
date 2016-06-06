@@ -23,6 +23,7 @@ public class CMSUtility {
 	
 	public static  boolean checkDrupal(RequestBean rb) {
 		Document doc=null;
+		if(isConnected()){
 		if(rb.getUrl()!=null){
 			
 			try {
@@ -36,6 +37,7 @@ public class CMSUtility {
 			}
 			
 		}
+	}
 		return false;
 	}
 	public static boolean isConnected(){
