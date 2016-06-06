@@ -1,8 +1,8 @@
 package com.dastaan.testing;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.dastaan.entities.RequestBean;
 import com.dastaan.utilities.CMSUtility;
@@ -11,22 +11,17 @@ public class Test {
 
 	
 	public static void main(String[] args) throws Exception {
-		if(CMSUtility.isConnected()){
-			System.out.println("Connection made....");
-		}
-		RequestBean rb= new RequestBean("www.facebook.com");
-		//rb.setUrl("www.conversantmedia.com");
-		System.out.println(rb.getFinalUrl());
-		Document doc = Jsoup.connect(rb.getFinalUrl()).get();
-		Elements aList = doc.select("a");
-		System.out.println(aList);
-	
-			if(doc.getElementById("likely")!=null){
-				System.out.println("Yes");
-			}
-			else{
-				System.out.println("NO");
-			}
+
+		CMSUtility cms= new CMSUtility();
+		File f = new File("resources/Links.txt");
+		System.out.println("procedding");
+		ArrayList<RequestBean> rbList=(ArrayList<RequestBean>) cms.getRbListfromFile(f);
+/*		for(RequestBean r:rbList){
+			System.out.println(r);
+		}*/
+		
+		
+		
 		}
 	}
 
