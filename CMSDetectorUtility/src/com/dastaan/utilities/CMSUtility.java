@@ -1,8 +1,15 @@
 package com.dastaan.utilities;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,23 +18,16 @@ import com.dastaan.entities.RequestBean;
 
 public class CMSUtility {
 	
-	private boolean isDrupal;
 
-	public boolean isDrupal() {
-		return isDrupal;
-	}
-
-	public void setDrupal(boolean isDrupal) {
-		this.isDrupal = isDrupal;
-	}
 	
-	public static  boolean checkDrupal(RequestBean rb) {
+	public static  boolean checkDrupal(String url) {
 		Document doc=null;
-		if(isConnected()){
-		if(rb.getUrl()!=null){
+		
+		if(url!=null){
 			
 			try {
-				doc = Jsoup.connect(rb.getUrl()).get();
+				System.out.println(url);
+				doc = Jsoup.connect(url).get();
 			} catch (IOException e) {
 				System.err.println("Service unavailable");
 				e.printStackTrace();
@@ -37,7 +37,6 @@ public class CMSUtility {
 			}
 			
 		}
-	}
 		return false;
 	}
 	public static boolean isConnected(){
@@ -49,5 +48,20 @@ public class CMSUtility {
 			return false;
 		}
 		return true;
+	}
+	
+	public List<RequestBean> getRbListfromFile(File f) throws IOException{
+		List<RequestBean> rbList = new ArrayList<RequestBean>();
+			Scanner read = new Scanner (f);
+			read.useDelimiter("\n");
+			while(read.hasNext()){
+				String nextUrl= read.next();
+				if(CMSUtility.checkDrupal("http://isthissitebuiltwithdrupal.com/"+"http://"+nextUrl+"/")){
+					rbList.add(new RequestBean(nextUrl));
+					}
+			}
+			read.close();
+		return rbList;
+		
 	}
 }
