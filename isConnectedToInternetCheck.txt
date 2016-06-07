@@ -1,0 +1,66 @@
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
+public class SarasTest {
+
+    public static void main(String[] args) throws Exception {
+
+
+        final URL url = new URL("https://gateway.netpnb.com/evc/VerifyTaxpayerDetails.asmx");
+
+        final String proxyFlag = "Y";
+
+        HttpsURLConnection connection = null;
+
+        if ("Y".equals(proxyFlag)) {
+            final Proxy proxy =
+                new Proxy(Proxy.Type.HTTP, new InetSocketAddress(args[0],Integer.valueOf("3128")));
+
+            connection = (HttpsURLConnection) url.openConnection(proxy);
+
+            System.out.println("Connection With Proxy {} " + proxy);
+
+        } else {
+            connection = (HttpsURLConnection) url.openConnection();
+            System.out.println("Connection Without Proxy");
+        }
+
+        connection.setConnectTimeout(1000);
+        connection.setReadTimeout(1000);
+
+        connection.connect();
+
+        final String responseMessage = connection.getResponseMessage();
+
+        final int responseCode = connection.getResponseCode();
+
+        final BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+        final BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("./1.html"));
+
+        final byte[] readBytes = new byte[1024];
+
+        int lengthRead = bis.read(readBytes);
+
+        while (lengthRead != -1) {
+            bos.write(readBytes, 0, lengthRead);
+            lengthRead = bis.read(readBytes);
+        }
+
+        bis.close();
+        bos.close();
+
+
+
+        System.out.println("responseMessage {} , responseCode {}  " +  responseMessage + " :: " +  responseCode);
+    }
+
+
+}
