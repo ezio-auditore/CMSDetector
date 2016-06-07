@@ -16,9 +16,9 @@ public class Test {
 		File f = new File("resources/Links.txt");
 		System.out.println("procedding");
 		ArrayList<RequestBean> rbList=(ArrayList<RequestBean>) cms.getRbListfromFile(f);
-/*		for(RequestBean r:rbList){
+		for(RequestBean r:rbList){
 			System.out.println(r);
-		}*/
+		}
 		
 		
 		
