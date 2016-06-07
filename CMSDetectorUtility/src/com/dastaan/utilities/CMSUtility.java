@@ -56,9 +56,7 @@ public class CMSUtility {
 			read.useDelimiter("\n");
 			while(read.hasNext()){
 				String nextUrl= read.next();
-				System.out.println(nextUrl);
 				if(CMSUtility.checkDrupal("http://isthissitebuiltwithdrupal.com/"+"http://"+nextUrl+"/")){
-					System.out.println("is a drupal");
 					rbList.add(new RequestBean(nextUrl));
 					}
 			}
